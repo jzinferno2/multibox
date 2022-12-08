@@ -1,22 +1,5 @@
+#include "applets.h"
 #include "multibox.h"
-
-typedef int (*bb_applet)(int, char **);
-
-int dirname_main(int argc, char **argv)
-{
-    puts(dirname(argv[1]));
-    return 0;
-}
-
-bb_applet applets[] = {
-    dirname_main,
-};
-
-const char *applets_name[] = {
-    "dirname",
-};
-
-int bb_count = sizeof(applets_name) / sizeof(applets_name[0]);
 
 int main(int argc, char **argv)
 {
@@ -32,24 +15,24 @@ int main(int argc, char **argv)
         }
         else
         {
-            for (int i = 0; i < bb_count; i++)
+            for (int i = 0; i < applets_count; i++)
             {
                 if (!strcmp(argv[1], applets_name[i]))
                 {
                     argc--;
                     argv++;
-                    return applets[i](argc, argv);
+                    return applets_table[i](argc, argv);
                 }
             }
         }
     }
     else
     {
-        for (int i = 0; i < bb_count; i++)
+        for (int i = 0; i < applets_count; i++)
         {
             if (!strcmp(basename(argv[0]), applets_name[i]))
             {
-                return applets[i](argc, argv);
+                return applets_table[i](argc, argv);
             }
         }
     }

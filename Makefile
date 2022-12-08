@@ -19,12 +19,12 @@ CROSS_COMPILE ?=
 
 # Make variables (CC, etc...)
 ifneq ($(LLVM),)
-CC		= clang
-AR		= llvm-ar
+CC	= clang
+AR	= llvm-ar
 STRIP	= llvm-strip
 else
-CC		= $(CROSS_COMPILE)gcc
-AR		= $(CROSS_COMPILE)ar
+CC	= $(CROSS_COMPILE)gcc
+AR	= $(CROSS_COMPILE)ar
 STRIP	= $(CROSS_COMPILE)strip
 endif
 
@@ -33,14 +33,14 @@ LDFLAGS	:=
 
 IMAGENAME = multibox
 KERNELVERSION = $(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)
-CFLAGS += -DBB_VER='"$(KERNELVERSION)"'
-CFLAGS += -DBB_NAME='"$(IMAGENAME)"'
+CFLAGS	+= -DBB_VER='"$(KERNELVERSION)"'
+CFLAGS	+= -DBB_NAME='"$(IMAGENAME)"'
 
-CFLAGS += -Wall -Werror -O2 -Iinclude
+CFLAGS	+= -Wall -O2 -Iinclude -Werror
 
-obj := main.o
+obj	:= core/applets.o core/main.o applets/dirname.o
 
-%.o:%.c
+%.o:%.c Makefile
 	$(Q) echo "CC    $@"
 	$(Q) $(CC) $(CFLAGS) -c $< -o $@
 
